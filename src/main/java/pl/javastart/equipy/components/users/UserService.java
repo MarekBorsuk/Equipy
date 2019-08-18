@@ -1,6 +1,7 @@
 package pl.javastart.equipy.components.users;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -19,5 +20,22 @@ public class UserService {
 				.stream()
 				.map(UserMapper::toDto)
 				.collect(Collectors.toList());
+	}
+	
+	List<UserDto> findByLastName(String lastName){
+		return userRepository.findAllByLastNameContainingIgnoreCase(lastName)
+				.stream()
+				.map(UserMapper::toDto)
+				.collect(Collectors.toList());
+	}
+	
+	UserDto save(UserDto user) {
+		Optional<User> userByPesel = userRepository.findByPesel(user.getPesel());
+		userByPesel.ifPresent( u -> {
+			throw new DuplicatePeselException();
+		});
+		User userEntity = UserMapper.toEntity(user);
+		User savedUser = userRepository.save(userEntity);
+		return UserMapper.toDto(savedUser);
 	}
 }

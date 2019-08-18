@@ -1,9 +1,11 @@
 package pl.javastart.equipy.components.users;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
 
 @Entity
 public class User {
@@ -13,6 +15,7 @@ public class User {
 	private Long id;
 	private String firstName;
 	private String lastName;
+	@Column(unique = true)
 	private String pesel;
 	
 	
