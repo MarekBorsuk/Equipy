@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,5 +48,20 @@ public class UserResource {
 				.buildAndExpand(savadeUser.getId())
 				.toUri();
 		return ResponseEntity.created(location).body(savadeUser);
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<UserDto> findById(@PathVariable Long id){
+		return userService.findById(id)
+				.map(ResponseEntity::ok)
+				.orElse(ResponseEntity.notFound().build());
+	}
+	@PutMapping("/{id}")
+	public ResponseEntity<UserDto> update(@PathVariable Long id, @RequestBody UserDto user){
+		if (!id.equals(user.getId())) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Aktualizowany obiekt musi mieć id zgodne z id w ścieżce zasobu");
+		}
+		UserDto updateUser = userService.update(user);
+		return ResponseEntity.ok(updateUser);
 	}
 }
