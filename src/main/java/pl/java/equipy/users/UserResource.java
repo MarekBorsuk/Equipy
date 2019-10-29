@@ -1,4 +1,4 @@
-package pl.javastart.equipy.components.users;
+package pl.java.equipy.users;
 
 import java.net.URI;
 import java.util.List;
