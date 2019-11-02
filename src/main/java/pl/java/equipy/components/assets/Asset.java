@@ -1,5 +1,8 @@
 package pl.java.equipy.components.assets;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,7 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
+import pl.java.equipy.components.asignment.Assignment;
 import pl.java.equipy.components.category.Category;;
 
 @Entity
@@ -23,6 +28,8 @@ public class Asset {
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Category category;
+	@OneToMany(mappedBy = "asset")
+	private List<Assignment> assignments = new ArrayList<>();
 	
 	public Long getId() {
 		return id;
@@ -54,6 +61,12 @@ public class Asset {
 	public void setCategory(Category category) {
 		
 		this.category = category;
+	}	
+	public List<Assignment> getAssignments() {
+		return assignments;
+	}
+	public void setAssignments(List<Assignment> assignments) {
+		this.assignments = assignments;
 	}
 	
 	@Override

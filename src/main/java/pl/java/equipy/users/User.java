@@ -1,10 +1,18 @@
 package pl.java.equipy.users;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import org.hibernate.mapping.Array;
+
+import pl.java.equipy.components.asignment.Assignment;
 
 
 @Entity
@@ -17,6 +25,8 @@ public class User {
 	private String lastName;
 	@Column(unique = true)
 	private String pesel;
+	@OneToMany(mappedBy = "user")
+	private List<Assignment> assignments = new ArrayList<>();
 	
 	
 	public Long getId() {
@@ -42,6 +52,13 @@ public class User {
 	}
 	public void setPesel(String pesel) {
 		this.pesel = pesel;
+	}
+	
+	public List<Assignment> getAssignments() {
+		return assignments;
+	}
+	public void setAssignments(List<Assignment> assignments) {
+		this.assignments = assignments;
 	}
 	@Override
 	public int hashCode() {
